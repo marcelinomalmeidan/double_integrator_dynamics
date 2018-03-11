@@ -1,0 +1,29 @@
+<launch>
+
+  <node pkg="double_integrator_dynamics"
+    type="double_integrator_dynamics"
+    name="double_integrator_dynamics"
+    output="screen">
+
+    <!-- List of quad names -->
+    <rosparam param="QuadList"> ["phoenix",
+                                 "valkyrie",
+                                 "hippogryph",
+                                 "harry",
+                                 "hermione",
+                                 "ron"] </rosparam>
+
+    <rosparam param="k"> 4.0 </rosparam> <!-- Integrator proportional gain -->
+    <rosparam param="kd"> 3.0 </rosparam> <!-- Integrator derivative gain -->
+
+    <!-- Set update rate for the threads -->
+    <rosparam param="integrator_rate"> 300.0 </rosparam> <!-- Integrator -->
+
+    <!-- Set Input/Output Topics -->
+    <param name="input_ref_topic" value="/px4_control/PVA_Ref_ML"/>
+    <param name="output_odom_topic" value="/local_odom"/>
+
+  </node>
+  
+</launch>
+
