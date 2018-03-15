@@ -47,6 +47,7 @@ void DoubleIntegratorDynamics::AddQuad(const std::string &quad_name,
 		mg_msgs::PVA emptyPVA = helper::GetEmptyPVA();
 		new_quad.reference = emptyPVA;
 		new_quad.vehicle_odom = helper::GetZeroOdom();
+		new_quad.vehicle_odom.child_frame_id = quad_name;
 		new_quad.is_active = false;
 		new_quad.ref_is_active = false;
 		new_quad.last_reference_stamp = ros::Time::now();
