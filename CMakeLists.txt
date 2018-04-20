@@ -42,3 +42,6 @@ add_executable(double_integrator_dynamics
 target_link_libraries(double_integrator_dynamics ${catkin_LIBRARIES})
 add_dependencies(double_integrator_dynamics ${catkin_EXPORTED_TARGETS})
 add_dependencies(double_integrator_dynamics mg_msgs_generate_messages_cpp)
+
+install(TARGETS double_integrator_dynamics
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
