@@ -7,6 +7,7 @@
 #include "double_integrator_dynamics/callbacks.h"
 #include "double_integrator_dynamics/helper.h"
 #include "double_integrator_dynamics/did_class.h"
+#include "double_integrator_dynamics/services.h"
 
 // Structs for global variables
 #include "double_integrator_dynamics/structs.h"
@@ -16,6 +17,8 @@
 #include "nav_msgs/Odometry.h"
 #include "mg_msgs/PVA.h"
 
+// ROS service types
+#include "std_srvs/Empty.h"
 
 // Declare global variables
 extern globalVariables globals_;

@@ -51,6 +51,7 @@ class DoubleIntegratorDynamics {
     	               std::set<QuadData>::iterator *index);  // Returns -1 if it can't find
     void UpdateQuadReference(const std::string &name, 
                  			 const mg_msgs::PVA &reference);
+    void DeactivateQuads(); // set all quads as innactive. Used for restarting the simulation
     void UpdateDIDOutputs(const double &dt);
     void PublishPositions();
 

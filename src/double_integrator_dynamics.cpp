@@ -5,6 +5,17 @@
 globalVariables globals_;
 mutexStruct mutexes_;
 
+bool ResetGame(std_srvs::Empty::Request  &req,
+               std_srvs::Empty::Response &res) {
+	// Update reference
+	pthread_mutex_lock(&mutexes_.m_did_class);
+		globals_.obj_did.DeactivateQuads();
+	pthread_mutex_unlock(&mutexes_.m_did_class);
+
+	return true;
+}
+
+
 int main(int argc, char** argv) {
 	ros::init(argc, argv, "double_integrator_dynamics");
 	ros::NodeHandle node("~");
@@ -44,7 +55,10 @@ int main(int argc, char** argv) {
 			(sub_topic_name, 10, boost::bind(callbacks::PVACallback, _1, quad_names[i])));
 	}
 
-	// Threads -------------------------------------------
+	// Services -----------------------------------------------------------------
+	ros::ServiceServer reset_srv = node.advertiseService("reset_game", services::ResetGame);
+
+	// Threads ------------------------------------------------------------------
 	std::thread h_integrator_thread, h_heartbeat_thread;
 	h_integrator_thread = std::thread(threads::IntegrationThread, integrator_rate);
 	h_heartbeat_thread = std::thread(threads::HeartbeatThread);

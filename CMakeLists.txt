@@ -38,6 +38,7 @@ add_executable(double_integrator_dynamics
                src/helper.cpp
                src/threads.cpp
                src/callbacks.cpp
+               src/services.cpp
                src/did_class.cpp)
 target_link_libraries(double_integrator_dynamics ${catkin_LIBRARIES})
 add_dependencies(double_integrator_dynamics ${catkin_EXPORTED_TARGETS})

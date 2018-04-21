@@ -90,6 +90,20 @@ void DoubleIntegratorDynamics::UpdateQuadReference(const std::string &name,
 	}
 }
 
+// set all quads as innactive. Used for restarting the simulation
+void DoubleIntegratorDynamics::DeactivateQuads() {
+	std::set<QuadData>::iterator it;
+	for(it = quads_.begin(); it != quads_.end(); ++it) {
+		mg_msgs::PVA emptyPVA = helper::GetEmptyPVA();
+		it->reference = emptyPVA;
+		it->vehicle_odom = helper::GetZeroOdom();
+		it->is_active = false;
+		it->ref_is_active = false;
+		it->last_reference_stamp = ros::Time::now();
+		// it->dynamics_integrator = rk4(k_, kd_);
+	}
+}
+
 void DoubleIntegratorDynamics::UpdateDIDOutputs(const double &dt) {
 	const double gravity = 9.81;
 	std::set<QuadData>::iterator it;
