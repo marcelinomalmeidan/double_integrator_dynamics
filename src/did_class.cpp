@@ -97,6 +97,7 @@ void DoubleIntegratorDynamics::DeactivateQuads() {
 		mg_msgs::PVA emptyPVA = helper::GetEmptyPVA();
 		it->reference = emptyPVA;
 		it->vehicle_odom = helper::GetZeroOdom();
+		it->vehicle_odom.child_frame_id = it->name;
 		it->is_active = false;
 		it->ref_is_active = false;
 		it->last_reference_stamp = ros::Time::now();
