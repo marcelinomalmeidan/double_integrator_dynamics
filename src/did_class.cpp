@@ -14,7 +14,6 @@ DoubleIntegratorDynamics::DoubleIntegratorDynamics(const double &k,
 	n_quads_ = 0;
 }
 
-
 void DoubleIntegratorDynamics::PrintQuadNames() {
 	std::set<QuadData>::iterator it;
 	for(it = quads_.begin(); it != quads_.end(); ++it) {
@@ -32,6 +31,14 @@ void DoubleIntegratorDynamics::PrintQuadReferences(const std::string &name) {
 	} else {
 		ROS_INFO("[didynamics]: Couldn't print reference: quad name not found");
 	}
+}
+
+void DoubleIntegratorDynamics::SetNoiseStdDev(const double &std_dev_pos_meas,
+	                                     	  const double &std_dev_vel_meas) {
+	// std_dev_pos_meas_ = std_dev_pos_meas;
+	// std_dev_vel_meas_ = std_dev_vel_meas;
+	distribution_pos_ = std::normal_distribution<double>(0.0, std_dev_pos_meas);
+	distribution_vel_ = std::normal_distribution<double>(0.0, std_dev_vel_meas);
 }
 
 void DoubleIntegratorDynamics::AddQuad(const std::string &quad_name,
@@ -126,13 +133,19 @@ void DoubleIntegratorDynamics::UpdateDIDOutputs(const double &dt) {
                   helper::SetVector3(0.0, 0.0, gravity));
 		const geometry_msgs::Quaternion quat = 
 		          helper::TriadQuat(Acc, it->reference.yaw);
-                
+
+		// Add measurement noise
+		pos.x = pos.x + distribution_pos_(generator_);
+		pos.y = pos.y + distribution_pos_(generator_);
+		pos.z = pos.z + distribution_pos_(generator_);
+		pos_dot.x = pos_dot.x + distribution_vel_(generator_);
+		pos_dot.y = pos_dot.y + distribution_vel_(generator_);
+		pos_dot.z = pos_dot.z + distribution_vel_(generator_);
 
 		// Set odometry info
 		it->vehicle_odom.pose.pose.position = pos;
 		it->vehicle_odom.pose.pose.orientation = quat;
 		it->vehicle_odom.twist.twist.linear = pos_dot;
-
 
 		// Populate structure for new reference data
 		// mg_msgs::PVA ml_reference;

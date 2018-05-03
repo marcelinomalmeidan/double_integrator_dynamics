@@ -5,6 +5,7 @@
 
 #include <ros/ros.h>
 #include <Eigen/Dense>
+#include <random>
 #include "double_integrator_dynamics/helper.h"
 #include "double_integrator_dynamics/rk4.h"
 
@@ -35,6 +36,10 @@ class DoubleIntegratorDynamics {
  	uint n_quads_;
     double k_ = 4.0;          // Proportional gain in the error integrator
     double kd_ = 3.0;         // Derivative gain in the error integrator
+    // double std_dev_pos_meas_; // Standard deviation for position measurements
+    // double std_dev_vel_meas_; // Standard deviation for velocity measurements
+    std::default_random_engine generator_;
+    std::normal_distribution<double> distribution_pos_, distribution_vel_;
 
     // Constructors
     DoubleIntegratorDynamics();
@@ -44,6 +49,8 @@ class DoubleIntegratorDynamics {
     // Methods
     void PrintQuadNames();
     void PrintQuadReferences(const std::string &name);
+    void SetNoiseStdDev(const double &std_dev_pos_meas,
+                        const double &std_dev_vel_meas);
     void AddQuad(const std::string &quad_name,
                  const std::string &output_topic,
                  ros::NodeHandle *nh);

@@ -16,6 +16,12 @@
     <rosparam param="k"> 4.0 </rosparam> <!-- Integrator proportional gain -->
     <rosparam param="kd"> 3.0 </rosparam> <!-- Integrator derivative gain -->
 
+    <!-- Standard deviation for position measurements -->
+    <rosparam param="std_dev_pos_meas"> 0.01 </rosparam>
+
+    <!-- Standard deviation for velocity measurements -->
+    <rosparam param="std_dev_vel_meas"> 0.01 </rosparam>
+
     <!-- Set update rate for the threads -->
     <rosparam param="integrator_rate"> 300.0 </rosparam> <!-- Integrator -->
 

@@ -39,6 +39,12 @@ int main(int argc, char** argv) {
 	node.getParam("input_ref_topic", input_ref_topic);
 	node.getParam("output_odom_topic", output_odom_topic);
 
+	// Get measurement noise standard deviations
+	double std_dev_pos_meas, std_dev_vel_meas;
+	node.getParam("std_dev_pos_meas", std_dev_pos_meas);
+	node.getParam("std_dev_vel_meas", std_dev_vel_meas);
+	globals_.obj_did.SetNoiseStdDev(std_dev_pos_meas, std_dev_vel_meas);
+
 	// Add quads to integrator and create publishers/subscribers for them
 	std::vector<ros::Subscriber> subsPVA;
 	std::string sub_topic_name;
