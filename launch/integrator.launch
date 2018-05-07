@@ -13,6 +13,14 @@
                                  "hermione",
                                  "ron"] </rosparam>
 
+    <!-- Initial position quads (meters) -->
+    <rosparam param="InitialPosition"> [-6.0,  0.0, 0.0,
+                                        -6.0, -1.5, 0.0,
+                                        -6.0,  1.5, 0.0,
+                                         6.0,  0.0, 0.0,
+                                         6.0, -1.5, 0.0,
+                                         6.0,  1.5, 0.0] </rosparam>
+
     <rosparam param="k"> 4.0 </rosparam> <!-- Integrator proportional gain -->
     <rosparam param="kd"> 3.0 </rosparam> <!-- Integrator derivative gain -->
 

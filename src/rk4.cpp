@@ -71,6 +71,12 @@ void rk4::ResetStates(const nav_msgs::Odometry &odom) {
 	y_ddot_ << 0.0, 0.0, 0.0;	
 }
 
+void rk4::ResetStates(const Eigen::Vector3d &pos) {
+	y_ = pos;
+	y_dot_ << 0.0, 0.0, 0.0;
+	y_ddot_ << 0.0, 0.0, 0.0;	
+}
+
 void rk4::GetPos(Eigen::Vector3d *pos) {
 	// *pos = Eigen::Vector3d(state_[0], state_[1], state_[2]);
 	*pos = y_;

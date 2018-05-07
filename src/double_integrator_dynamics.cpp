@@ -30,9 +30,11 @@ int main(int argc, char** argv) {
 	double integrator_rate;
 	node.getParam("integrator_rate", integrator_rate);
 
-	// Get all quad names and colors
+	// Get all quad names and positions
 	std::vector<std::string> quad_names;
+	std::vector<double> init_pos, init_yaw;
 	node.getParam("QuadList", quad_names);
+	node.getParam("InitialPosition", init_pos);
 
 	// Get all topic suffixes
 	std::string input_ref_topic, output_odom_topic;
@@ -45,14 +47,22 @@ int main(int argc, char** argv) {
 	node.getParam("std_dev_vel_meas", std_dev_vel_meas);
 	globals_.obj_did.SetNoiseStdDev(std_dev_pos_meas, std_dev_vel_meas);
 
+	if (float(quad_names.size()) > float(init_pos.size())/3.0) {
+		ROS_ERROR("[ml_strategy]: Initial positions not well defined!");
+		return 0;
+	}
+
 	// Add quads to integrator and create publishers/subscribers for them
 	std::vector<ros::Subscriber> subsPVA;
 	std::string sub_topic_name;
 	for(uint i = 0; i < quad_names.size(); i++) {
+		// Quad initial position
+		Eigen::Vector3d pos(init_pos[3*i], init_pos[3*i+1], init_pos[3*i+2]);
+
 		// Add quad
 		std::string output_topic, visualization_topic;
 		output_topic = "/" + quad_names[i] + output_odom_topic;
-		globals_.obj_did.AddQuad(quad_names[i], output_topic, &node);
+		globals_.obj_did.AddQuad(quad_names[i], output_topic, pos, &node);
 
 		// Set subscriber to get references to the quad
 		sub_topic_name = "/" + quad_names[i] + input_ref_topic;
@@ -62,7 +72,7 @@ int main(int argc, char** argv) {
 	}
 
 	// Services -----------------------------------------------------------------
-	ros::ServiceServer reset_srv = node.advertiseService("reset_game", services::ResetGame);
+	// ros::ServiceServer reset_srv = node.advertiseService("reset_game", services::ResetGame);
 
 	// Threads ------------------------------------------------------------------
 	std::thread h_integrator_thread, h_heartbeat_thread;

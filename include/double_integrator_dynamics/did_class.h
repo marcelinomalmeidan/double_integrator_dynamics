@@ -23,6 +23,7 @@ struct QuadData {
     mutable rk4 dynamics_integrator;         // Runge-kutta dynamics integrator
     mutable ros::NodeHandle nh;              // ROS Nodehandle
     mutable ros::Publisher pub_odom;         // Publishes the vehicle odometry
+    mutable Eigen::Vector3d init_pos;        // Initial position (used when resetting game)
 
     bool operator<(const QuadData& other) const {
         int compareResult = name.compare(other.name);
@@ -53,6 +54,7 @@ class DoubleIntegratorDynamics {
                         const double &std_dev_vel_meas);
     void AddQuad(const std::string &quad_name,
                  const std::string &output_topic,
+                 const Eigen::Vector3d &init_pos,
                  ros::NodeHandle *nh);
     void FindQuadIndex(const std::string &name,
     	               std::set<QuadData>::iterator *index);  // Returns -1 if it can't find
