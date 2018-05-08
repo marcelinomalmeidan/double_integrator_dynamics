@@ -20,6 +20,12 @@
                                          6.0,  0.0, 0.0,
                                          6.0, -1.5, 0.0,
                                          6.0,  1.5, 0.0] </rosparam>
+    <rosparam param="InitialYaw"> [3.1415,
+                                   3.1415,
+                                   3.1415,
+                                   0.0,
+                                   0.0,
+                                   0.0] </rosparam>
 
     <rosparam param="k"> 4.0 </rosparam> <!-- Integrator proportional gain -->
     <rosparam param="kd"> 3.0 </rosparam> <!-- Integrator derivative gain -->

@@ -35,6 +35,7 @@ int main(int argc, char** argv) {
 	std::vector<double> init_pos, init_yaw;
 	node.getParam("QuadList", quad_names);
 	node.getParam("InitialPosition", init_pos);
+	node.getParam("InitialYaw", init_yaw);
 
 	// Get all topic suffixes
 	std::string input_ref_topic, output_odom_topic;
@@ -48,7 +49,11 @@ int main(int argc, char** argv) {
 	globals_.obj_did.SetNoiseStdDev(std_dev_pos_meas, std_dev_vel_meas);
 
 	if (float(quad_names.size()) > float(init_pos.size())/3.0) {
-		ROS_ERROR("[ml_strategy]: Initial positions not well defined!");
+		ROS_ERROR("[didynamics]: Initial positions not well defined!");
+		return 0;
+	}
+	if (float(quad_names.size()) > float(init_yaw.size())) {
+		ROS_ERROR("[didynamics]: Initial yaw not well defined!");
 		return 0;
 	}
 
@@ -62,7 +67,8 @@ int main(int argc, char** argv) {
 		// Add quad
 		std::string output_topic, visualization_topic;
 		output_topic = "/" + quad_names[i] + output_odom_topic;
-		globals_.obj_did.AddQuad(quad_names[i], output_topic, pos, &node);
+		globals_.obj_did.AddQuad(quad_names[i], output_topic, pos, 
+			                     init_yaw[i], &node);
 
 		// Set subscriber to get references to the quad
 		sub_topic_name = "/" + quad_names[i] + input_ref_topic;

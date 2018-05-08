@@ -44,6 +44,7 @@ void DoubleIntegratorDynamics::SetNoiseStdDev(const double &std_dev_pos_meas,
 void DoubleIntegratorDynamics::AddQuad(const std::string &quad_name,
 							           const std::string &output_topic,
                                        const Eigen::Vector3d &init_pos,
+                                       const double &init_yaw,
 							           ros::NodeHandle *nh) {
 	QuadData new_quad;
 	new_quad.name = quad_name;
@@ -55,9 +56,13 @@ void DoubleIntegratorDynamics::AddQuad(const std::string &quad_name,
 		mg_msgs::PVA emptyPVA = helper::GetEmptyPVA();
 		new_quad.reference = emptyPVA;
 		new_quad.reference.Pos = helper::Vec3d2point(init_pos);
+		new_quad.reference.yaw = init_yaw;
+		std::cout << init_yaw << std::endl;
 		new_quad.vehicle_odom = helper::GetZeroOdom();
 		new_quad.vehicle_odom.child_frame_id = quad_name;
 		new_quad.vehicle_odom.pose.pose.position = helper::Vec3d2point(init_pos);
+		new_quad.vehicle_odom.pose.pose.orientation = 
+			helper::SetQuat(cos(init_yaw/2.0), 0.0, 0.0, sin(init_yaw/2.0));
 		new_quad.is_active = true;
 		new_quad.ref_is_active = false;
 		new_quad.last_reference_stamp = ros::Time::now();

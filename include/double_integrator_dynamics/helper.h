@@ -94,6 +94,10 @@ Eigen::Quaterniond TriadQuat(Eigen::Vector3d v1, double yaw);
 // Same as previous, but returns ROS Quaternion
 geometry_msgs::Quaternion TriadQuat(geometry_msgs::Vector3 v1, double yaw);
 
+// Set a quaternion ROS vector
+geometry_msgs::Quaternion SetQuat(const double &w, const double &x,
+	                              const double &y, const double &z);
+
 /* Minimum function */
 float min(double x, double y);
 

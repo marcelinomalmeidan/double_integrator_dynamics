@@ -193,6 +193,16 @@ geometry_msgs::Quaternion TriadQuat(geometry_msgs::Vector3 v1, double yaw) {
 	return q;
 }
 
+// Set a quaternion ROS vector
+geometry_msgs::Quaternion SetQuat(const double &w, const double &x,
+	                              const double &y, const double &z) {
+	geometry_msgs::Quaternion q;
+	q.w = w;
+	q.x = x;
+	q.y = y;
+	q.z = z;
+}
+
 /* Minimum function */
 float min(double x, double y)
 {

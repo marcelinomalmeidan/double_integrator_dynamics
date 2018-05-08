@@ -55,6 +55,7 @@ class DoubleIntegratorDynamics {
     void AddQuad(const std::string &quad_name,
                  const std::string &output_topic,
                  const Eigen::Vector3d &init_pos,
+                 const double &init_yaw,
                  ros::NodeHandle *nh);
     void FindQuadIndex(const std::string &name,
     	               std::set<QuadData>::iterator *index);  // Returns -1 if it can't find
